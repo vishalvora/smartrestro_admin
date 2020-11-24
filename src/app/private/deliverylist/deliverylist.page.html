@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-button color="dark" (click)="dismiss()">
+              <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+
+      </ion-buttons>
+
+    <ion-title>Products to be deliverted</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div style="font-size:12px; color: gray; padding:10px">This is the consolided list of the products for orders which is not accepted yet </div>
+
+
+  <ion-item *ngFor = "let data of data">
+    <ion-label>{{data.name}} </ion-label>
+    <span> {{data.variants[data.selectedVariant].title}}</span>&nbsp; &times; &nbsp;
+    <span style="padding-right:15px">  {{data.qty}}</span>
+  </ion-item>
+</ion-content>

@@ -1,0 +1,145 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {
+      "config.xml": {
+        "parents": {
+          "/*": [
+            {
+              "xml": "<feature name=\"Device\"><param name=\"browser-package\" value=\"Device\" /></feature>",
+              "count": 1
+            }
+          ]
+        }
+      }
+    }
+  },
+  "installed_plugins": {
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-ionic-keyboard": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-ionic-webview": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-android-permissions": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-request-location-accuracy": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-fcm-with-dependecy-updated": {
+      "PACKAGE_NAME": "io.partner.snvmart"
+    },
+    "cordova-plugin-app-version": {
+      "PACKAGE_NAME": "com.snvmart.seller"
+    }
+  },
+  "dependent_plugins": {},
+  "modules": [
+    {
+      "file": "plugins/cordova-plugin-device/www/device.js",
+      "id": "cordova-plugin-device.device",
+      "pluginId": "cordova-plugin-device",
+      "clobbers": [
+        "device"
+      ]
+    },
+    {
+      "file": "plugins/cordova-plugin-device/src/browser/DeviceProxy.js",
+      "id": "cordova-plugin-device.DeviceProxy",
+      "pluginId": "cordova-plugin-device",
+      "runs": true
+    },
+    {
+      "file": "plugins/cordova-plugin-ionic-webview/src/www/util.js",
+      "id": "cordova-plugin-ionic-webview.IonicWebView",
+      "pluginId": "cordova-plugin-ionic-webview",
+      "clobbers": [
+        "Ionic.WebView"
+      ]
+    },
+    {
+      "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+      "id": "cordova-plugin-splashscreen.SplashScreen",
+      "pluginId": "cordova-plugin-splashscreen",
+      "clobbers": [
+        "navigator.splashscreen"
+      ]
+    },
+    {
+      "file": "plugins/cordova-plugin-splashscreen/src/browser/SplashScreenProxy.js",
+      "id": "cordova-plugin-splashscreen.SplashScreenProxy",
+      "pluginId": "cordova-plugin-splashscreen",
+      "runs": true
+    },
+    {
+      "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+      "id": "cordova-plugin-statusbar.statusbar",
+      "pluginId": "cordova-plugin-statusbar",
+      "clobbers": [
+        "window.StatusBar"
+      ]
+    },
+    {
+      "file": "plugins/cordova-plugin-statusbar/src/browser/StatusBarProxy.js",
+      "id": "cordova-plugin-statusbar.StatusBarProxy",
+      "pluginId": "cordova-plugin-statusbar",
+      "runs": true
+    },
+    {
+      "file": "plugins/cordova-plugin-android-permissions/www/permissions-dummy.js",
+      "id": "cordova-plugin-android-permissions.Permissions",
+      "pluginId": "cordova-plugin-android-permissions",
+      "clobbers": [
+        "cordova.plugins.permissions"
+      ]
+    },
+    {
+      "file": "plugins/cordova-plugin-fcm-with-dependecy-updated/www/FCMPlugin.js",
+      "id": "cordova-plugin-fcm-with-dependecy-updated.FCMPlugin",
+      "pluginId": "cordova-plugin-fcm-with-dependecy-updated",
+      "clobbers": [
+        "FCMPlugin"
+      ]
+    },
+    {
+      "file": "plugins/cordova-plugin-app-version/www/AppVersionPlugin.js",
+      "id": "cordova-plugin-app-version.AppVersionPlugin",
+      "pluginId": "cordova-plugin-app-version",
+      "clobbers": [
+        "cordova.getAppVersion"
+      ]
+    }
+  ],
+  "plugin_metadata": {
+    "cordova-plugin-device": "2.0.2",
+    "cordova-plugin-ionic-keyboard": "2.2.0",
+    "cordova-plugin-ionic-webview": "4.2.0",
+    "cordova-plugin-splashscreen": "5.0.2",
+    "cordova-plugin-statusbar": "2.4.2",
+    "cordova-plugin-whitelist": "1.3.3",
+    "cordova-plugin-android-permissions": "1.0.2",
+    "cordova-plugin-request-location-accuracy": "2.3.0",
+    "cordova-plugin-geolocation": "4.0.2",
+    "cordova-plugin-fcm-with-dependecy-updated": "6.1.0",
+    "cordova-plugin-app-version": "0.1.9"
+  }
+}

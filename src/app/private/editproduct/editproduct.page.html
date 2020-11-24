@@ -1,0 +1,175 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-button color="dark" (click)="dismiss()">
+              <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+      </ion-buttons>
+    <ion-title>Edit Product</ion-title>
+    <ion-button slot="end" fill="clear" [disabled]= "!productForm.valid" (click)="saveProduct()">save</ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+ 
+
+  <form action="" #productForm="ngForm" >
+  <div style="padding-bottom:10px; background:white">
+      <ion-item>
+        <ion-label position="stacked">Product title*</ion-label>
+        <ion-input required [(ngModel)] = "product.name" name= "name" id="ngModel"></ion-input>
+        <!-- [(ngModel)] = "product.name" -->
+      </ion-item>
+</div>
+
+  <div style="height:20px"></div>
+  
+      <ion-item lines="none">
+        <ion-thumbnail slot="start" >
+            <img src={{product?.image_url}} *ngIf="!imageUploadInprogress" id="img">
+            <ion-spinner name="bubbles" *ngIf="imageUploadInprogress"></ion-spinner>
+        </ion-thumbnail>
+        <ion-label><input type="file" (change)="logoSelected($event)"></ion-label>
+      </ion-item>  
+
+  <div style="height:20px"></div>
+
+
+  <ion-item lines="none">
+    <ion-label>Mark this product as Out Of Stock</ion-label>
+    <ion-toggle [(ngModel)]="product.markOOS"  name="status" (ionChange)="makeDirty()" [ngModelOptions]="{standalone: true}"></ion-toggle>
+    
+    </ion-item>
+
+    <div *ngIf = "product.markOOS" style="padding:10px; color:red; font-size:13px"> This product is Out Of Stock, customers can not order this product</div>
+
+    <div style="height:10px"></div>
+    <ion-item>
+      <ion-label>Product category</ion-label>
+      <ion-select [(ngModel)] = "product.category" (ionChange)="makeDirty()" [ngModelOptions]="{standalone: true}">
+        <ion-select-option  *ngFor = "let cat of productCategory" value={{cat}}>{{cat}}</ion-select-option>
+      </ion-select>
+
+    </ion-item>
+    <div style="height:20px"></div>
+
+
+
+    <ion-item lines="none">
+      <ion-label>Loose item?</ion-label>
+      <ion-toggle [(ngModel)]="product.looseItem"  name="status" (ionChange)="makeDirty()" [ngModelOptions]="{standalone: true}"></ion-toggle>
+    </ion-item>
+
+    <div *ngIf = "product.looseItem" style="display:flex; padding-bottom:10px; background: white">
+      <div style=" width: 50%">
+        <ion-item style="padding-right:5px">
+            <ion-label position="stacked">Inventory*</ion-label>    
+            <ion-input type ="number" required style="padding-bottom:10px" name = "pp" [(ngModel)]="product.lInventory"></ion-input>
+            <!-- [(ngModel)]="variant.price" -->
+        </ion-item>
+      </div>
+      <div style=" width: 50%">
+          <ion-item>
+              <ion-label position="stacked">unit*</ion-label>    
+              <ion-input  required [(ngModel)]="product.lUnit"   name = "Ii" placeholder = "e.g. kg, liter"></ion-input>
+              <!-- [(ngModel)]="variant.inventory" -->
+          </ion-item>
+        </div>
+    </div>
+
+    <div *ngIf = "!product.looseItem" style="padding:10px; color:darkgray; font-size:12px">If you are purchasing the item in kgs and liter and selling loose in grams and ml then enable this button for calculating the overall inventory</div>
+    <div *ngIf = "product.looseItem" style="padding:10px; color:darkgray; font-size:12px">This product is considered to be sold loose, inventory will be maintained on product level instead of variant level. add variant factor for all variant e.g. for 250 g variant, variant factor = 250 gm/1000 =0.25 </div>
+
+    <div style="height:20px"></div>
+      <ion-item lines = "none">
+        <ion-label >Show MRP</ion-label>
+        <ion-toggle [(ngModel)]="product.showMRP" name="mrp" (ionChange)="makeDirty()" [ngModelOptions]="{standalone: true}"></ion-toggle>
+      </ion-item>
+    <div style="height:20px"></div>
+
+
+  <ion-list-header style="background:white">
+      <ion-label> variants</ion-label>
+      <ion-button (click)="addVariant()"> add variants</ion-button>
+    </ion-list-header>
+
+    <div style="height: 5px"></div>
+
+
+    <div *ngFor = "let variant of product.variants, index as i">
+    <div style="padding-bottom:10px; background:white">
+    <ion-item >
+      <ion-label position = "stacked">Variant title*</ion-label>
+      <ion-icon slot="end" name="trash-outline" (click)="presentAlertConfirm(i)" *ngIf = " product.variants.length>1"></ion-icon>
+      <ion-input  required [(ngModel)]="variant.title"   name = "t-{{i}}"></ion-input>
+      <!-- [(ngModel)]="variant.title" -->
+    </ion-item>
+
+  <div style="display:flex">
+      <div style=" width: 50%">
+        <ion-item>
+            <ion-label position="stacked">Price*</ion-label>    
+            <ion-input type ="number" required style="padding-bottom:10px" name = "p-{{i}}" [(ngModel)]="variant.price"></ion-input>
+            <!-- [(ngModel)]="variant.price" -->
+        </ion-item>
+      </div>
+
+      <div style=" width: 50%" *ngIf = product.showMRP>
+          <ion-item >
+              <ion-label position="stacked">MRP*</ion-label>    
+              <ion-input type ="number" required style="padding-bottom:10px"  name = "MRP-{{i}}" [(ngModel)]="variant.MRP"></ion-input>
+          </ion-item>
+        </div>
+  
+
+      <div style=" width: 50%" *ngIf = "!product.looseItem">
+          <ion-item>
+              <ion-label position="stacked">Inventory*</ion-label>    
+              <ion-input type ="number" required [(ngModel)]="variant.inventory"   name = "I-{{i}}"></ion-input>
+              <!-- [(ngModel)]="variant.inventory" -->
+          </ion-item>
+        </div>
+        <div *ngIf = "product.looseItem">
+          <ion-item >
+            <ion-label position = "stacked">Variant factor*</ion-label>
+            <ion-input type="number" required [(ngModel)]="variant.lifactor"   name = "ttt-{{i}}"></ion-input>
+            <!-- [(ngModel)]="variant.title" -->
+          </ion-item>
+      
+      
+        </div>
+    </div>
+    </div>
+    <div style="height: 5px"></div>
+  </div>
+</form>
+
+  <!-- <form [formGroup]="fgroup"  novalidate>
+  <ion-item>
+    <ion-label>name</ion-label>
+    <ion-input formControlName="name" [(ngModel)]="testValue"></ion-input>
+    </ion-item>
+
+     <div *ngIf = "!name.valid">wrong name</div>  -->
+    <!-- <ion-button   (click)="test(fgroup)">save</ion-button> -->
+  <!-- </form> -->
+
+    
+<!-- <form action="" #productForm1="ngForm">
+    <ion-item>
+        <ion-label position="stacked">Product title</ion-label>
+        <ion-input required [(ngModel)] = "product.name" name="name" id="ngModel"></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label position="stacked">Product title</ion-label>
+      <ion-input required [(ngModel)] = "product.price" name="name1" id="ngModel"></ion-input>
+    </ion-item>
+ -->
+        <!-- [(ngModel)] = "product.name" -->
+        <!-- {{name.valid}} -->
+      <!-- <ion-button   (click)="test(fgroup)" (click)="saveProduct()">save</ion-button> -->
+
+<!-- </form> -->
+</ion-content>

@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-button color="dark" (click)="back()">
+              <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+      </ion-buttons>
+
+    <ion-title>Offers</ion-title>
+    <ion-button slot="end" fill="clear" [disabled]= "!offerForm.valid" (click)="saveOffer(offer)">save</ion-button>
+    <ion-progress-bar type="indeterminate" *ngIf = "dataSaving"></ion-progress-bar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <form action="" #offerForm="ngForm">
+
+  <div style="padding-bottom:10px; color:white">
+    <ion-item>
+      <ion-label position="stacked">Offer Title</ion-label>
+      <ion-input required placeholder = "e.g. 10% on orders above Rs. 150" [(ngModel)]="offer.title" name="title"></ion-input>
+    </ion-item>
+  </div>
+
+
+  <div style="height:15px; background:lightgrey"></div>
+  <ion-item lines="none">
+    <ion-label>Offer status</ion-label>
+    <ion-toggle [(ngModel)]="offer.offer_status" name="status"></ion-toggle>
+
+  </ion-item>
+
+  <div style="height:15px; background:lightgrey"></div>
+
+  <ion-item>
+    <ion-label>Discount type</ion-label>
+    <ion-select required [(ngModel)] = "offer.type" name = "type" >
+        <ion-select-option value="percentage">Percentage</ion-select-option>
+        <ion-select-option value="flat">Fixed amount</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked" >Discount value</ion-label>
+    <ion-input required type="number" [(ngModel)]="offer.discount" name="value"></ion-input>
+  </ion-item>
+
+  <div style="height:15px; background:lightgrey"></div>
+
+  <ion-item>
+    <ion-label position="stacked" >Minumum order amount</ion-label>
+    <ion-input required type="number" [(ngModel)]="offer.min_order_amount" name="amount"></ion-input>
+  </ion-item>
+
+  <ion-item *ngIf = "offer.type === 'percentage'">
+    <ion-label position="stacked" >Maximum discount</ion-label>
+    <ion-input required type="number" [(ngModel)]="offer.max_discount_value" name="discount"></ion-input>
+  </ion-item>
+</form>
+
+</ion-content>

@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "776194675648",
+    "firebase_url": "https://snv-mart.firebaseio.com",
+    "project_id": "snv-mart",
+    "storage_bucket": "snv-mart.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776194675648:android:8ea86ddf8314a1ac15ee25",
+        "android_client_info": {
+          "package_name": "com.snvmart.seller"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMEIkhw1tnTlszlwPAMcL_skWFcFjC8nA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "776194675648-gu7qgki1f5dhvlucuadgv832r3sngtqm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -216,11 +216,8 @@ export class Tab1Page {
       if(res != 'null'){
         console.log(res);
         
-<<<<<<< HEAD
         this.currentDate = Date.now() - 86400000 *10
-=======
         this.currentDate = Date.now() - 86400000 *10
->>>>>>> ed01694351d6e03dce71f19437c0f6e2bf515f90
         console.log(this.currentDate);
         this.activeOrders()
         

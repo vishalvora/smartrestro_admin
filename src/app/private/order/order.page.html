@@ -1,0 +1,174 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
+    <ion-title>order</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item lines="none">
+    <ion-label>
+      <div>#{{order.orderNo}}</div>
+      <p>{{day}} &nbsp;  {{month}} &nbsp; {{hour}}:{{min}}</p>
+      <span style="padding-right:10px">
+          <ion-badge color="light" >{{order.paymentStatus}}</ion-badge></span>
+          <ion-badge color="light">{{order.orderStatus}}</ion-badge>
+
+    </ion-label>
+  </ion-item>
+
+
+  <div style="height: 10px"></div>
+
+
+  <ion-list>
+      <div style="padding-left: 10px">
+      <h4>{{order.customerName}}</h4>
+      </div>
+  <!-- <ion-item lines="none">
+    Vishal
+  </ion-item> -->
+  
+    <ion-item>
+        <ion-label style="font-size: 14px"><p>Phone no</p><div>+91 {{order.customerPhone}}</div></ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label style="font-size: 14px"><p>Address:</p> <div>{{order?.address?.houseNo}} {{order?.address?.landmark}}</div> </ion-label>
+      </ion-item>
+
+      <ion-item>
+          <ion-label style="font-size: 14px" class="ion-text-wrap"><p>GPS Location:</p> <div>{{order?.address?.formatted_address}}</div> </ion-label>
+        </ion-item>
+  
+
+</ion-list>
+
+  <div style="height: 10px"></div>
+
+  <div class="items" >
+       
+        <ion-item *ngFor = "let item of order.cart, index as j" >
+          <ion-label style="white-space: normal !important;" ><p>{{item.name}} - {{item.variants[item.selectedVariant].title}}</p></ion-label>
+          <span >Rs. {{item.price}}</span ><span>&times;</span>
+          <span *ngIf="item.hasOwnProperty('acceptedQty')">
+          <span style="padding-right:10px;" *ngIf=  "order.orderStatus == 'ordered' && item.acceptedQty" >{{item.qty}}</span><span style="padding-right:10px;" *ngIf= "!(order.orderStatus == 'ordered')"><del *ngIf ="item.qty != item.acceptedQty" style="padding-right:5px">{{item.qty}}</del>{{item.acceptedQty}}</span>
+          </span>
+          <span *ngIf="!(item.hasOwnProperty('acceptedQty'))">{{item.qty}}</span>
+          <!-- <ion-icon style="color:darkgreen" name="checkmark-circle-outline" (click)="acceptItem(order.cart, 0,j)" *ngIf="!item.hasOwnProperty(status) && !(item.status == 'rejected')" > </ion-icon>
+        <ion-icon style="color:red" name="close-circle-outline" (click)="rejectItem(order.cart, 0, j)" *ngIf="!item?.hasOwnProperty(status) && !(item.status == 'accepted') "></ion-icon> -->
+        <!-- <div style="height: 32px; width: 80px;border: 1px solid #d4d5d9;background-color: #fff;contain: content;overflow: hidden;position: relative;border-radius: 4px;display: flex;">
+          <div style="flex-grow: 1;text-align: center;line-height: 30px;margin-top: 2px;height: 100%;font-weight: 900;">
+          <span style="content: '';display: block;height: 2px;width: 10px;background-color: #bebfc5;position: relative;top: 47%;left: 65%;-webkit-transform: translate3d(-50%,-50%,0);transform: translate3d(-50%,-50%,0);"></span></div>
+          <div style="flex-grow: 1;text-align: center;line-height: 32px;color: #60b246;font-weight: 600;">1</div>
+          <div style="flex-grow: 1;color: #60b246;font-weight: 600;text-align: center;line-height: 30px;font-size: 20px;">+</div>
+        </div> -->
+        
+        <div *ngIf = "order.orderStatus == 'ordered'" style="height: 32px; width: 80px;border: 1px solid #d4d5d9;background-color: #fff;contain: content;overflow: hidden;position: relative;border-radius: 4px;display: flex;">
+            <ion-button fill="clear" style="margin: 0;height:30px" [disabled]='item.acceptedQty < 1'><span style="font-weight:600; font-size:33px" (click)="changeQty(-1, j)" >-</span></ion-button>          
+            <div style="flex-grow: 1;text-align: center;line-height: 32px;color: #60b246;font-weight: 600;">{{item.acceptedQty}}</div>
+            <ion-button fill="clear" style="margin: 0;height:30px" [disabled]='item.acceptedQty >= item.qty'><span style="font-weight:600; font-size:20px" (click)="changeQty(1, j)" >+</span></ion-button>          
+    </div>
+  
+
+        </ion-item>
+        
+
+        <div *ngIf = "order.cartData" style="background:white; padding:10px;">
+            <div style="padding: 10px 0; display: flex;"  >
+                <div style="flex: 5 1 0%">Subtotal</div>   
+                <div>&#8377; {{order.cartData.subtotal}}</div> 
+            </div>
+            
+        
+        
+            <div style="padding: 10px 0; display: flex" *ngIf ="order.cartData?.deliveryCharge > 0" >
+                <div style="flex: 5 1 0%">Delivery Charges</div>   
+                <!-- <div>Rs. {{this.currentStore?.delivery_charge}}</div>  -->
+                <div>&#8377; {{order.cartData.deliveryCharge}}</div>
+                
+        </div>
+        <div style="padding: 10px 0; display: flex; " *ngIf ="order.cartData.discount > 0" >
+            <div style="flex: 5 1 0%">Total  Discount</div>   
+            <div>&#8377; - {{order.cartData.discount}}</div> 
+            
+        </div>
+
+        
+        
+        <ion-item style="--background:lightgray" *ngIf = "store.adjust_amount">
+          <ion-label>Adjust amount</ion-label>
+          <ion-input type="number" slot="end" style="text-align: right" [readonly]= "!(order.orderStatus == 'ordered')"></ion-input>
+        </ion-item>
+
+        
+            <div style="padding: 20px 0; display: flex">
+                  <div style="flex: 5 1 0%">To Pay</div>   
+                  <div>&#8377; {{order.cartData.grandTotal}}</div> 
+                  
+        </div>
+        
+        </div>
+      </div>
+  
+      <div style="padding:10px; background:white">
+      <div style="display:flex;"  *ngIf = "order.orderStatus == 'ordered'">
+      
+          <div style="flex-grow: 1">
+            <ion-button expand="full" color = "medium" size="small" (click)="rejectOrderConfirm(order)">Mark as rejected</ion-button>
+          </div>
+          <div style="flex-grow: 1">
+          <ion-button expand="full" size="small" (click)="acceptOrder(order)">Mark as accepted</ion-button>
+          </div>
+        
+        </div>
+    
+        <div  *ngIf = "order.orderStatus == 'Accepted'">
+            <ion-button expand="full" color = "medium" size="small" (click)="ourForDeliveryOrder(order)">Mark as Out For delivery</ion-button>
+        </div>
+    
+        <div  *ngIf = "order.orderStatus == 'Out For Delivery'">
+            <ion-button expand="full" color = "medium" size="small" (click)="deliveredOrder(order)">Mark as delivered</ion-button>
+        </div>
+        <div style="height: 10px"></div>
+
+        <ion-item>
+          <ion-label position="stacked">Add note for customers:</ion-label>
+          <ion-textarea autoGrow="true"  [(ngModel)]="order.note"></ion-textarea>
+        </ion-item>
+        <ion-button (click)="saveNote(order)" fill="clear" slot="end">save note</ion-button>
+      </div>
+
+      <div style="height:10px">
+      </div>
+      <div style="padding:10px">
+          <ion-button expand="full"  (click)="createInvoice(order)"  *ngIf = "(order.orderStatus == 'Delivered') || (order.orderStatus == 'Accepted') || (order.orderStatus == 'Out For Delivery')">
+              <span *ngIf = "!order.invoiceApproved">create</span> &nbsp;  invoice 
+          </ion-button>
+          </div>
+          
+
+
+<ion-list>
+      <div style="padding-left: 10px">
+<h3>Payment: {{order.paymentStatus}}</h3>
+</div>
+<ion-item>
+  <ion-label>
+    Total:
+  </ion-label>
+  Rs {{order.amount}}
+</ion-item>
+
+<div style="padding:10px">
+<ion-button  expand="full" *ngIf = "order.paymentStatus == 'pending' || order.paymentStatus == 'processing'" (click)="presentAlertConfirm(order)">
+    mark as paid
+  </ion-button>
+</div>
+</ion-list>
+
+
+
+</ion-content>

@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "snv-mart"
+  },
+  "targets": {
+    "snv-mart": {
+      "hosting": {
+        "partner": [
+          "partner-snv-mart"
+        ]
+      }
+    }
+  }
+}

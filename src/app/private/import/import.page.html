@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-button color="dark" (click)="dismiss()">
+              <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+      </ion-buttons>
+    <ion-title>import</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-searchbar   animated cancelButtonIcon= "close-outline" showCancelButton = "always" (ionChange)="search($event)" (ionFocus)="test()"  (ionCancel)="ionBlur()" debounce = "500"></ion-searchbar>
+
+  <!-- set segments -->
+  <div *ngIf = "segCtrl">
+  <ion-segment (ionChange)="getProducts($event.detail.value)" scrollable [(ngModel)]="selectCategory">
+
+     
+      <div *ngFor = "let category of categoryList">
+        <ion-segment-button value={{category}} >
+          <ion-label>{{category}}</ion-label>
+        </ion-segment-button>
+      </div>
+      
+      </ion-segment>
+  
+
+    <ion-list >
+        <ion-item *ngFor= "let product of masterProductList">
+            <ion-thumbnail>
+                <img src={{product.image_url}}>
+              </ion-thumbnail>
+              <ion-label >{{product.name}}</ion-label>
+              <ion-checkbox  [disabled]="productIds.includes(product.import_id)" (ionChange)="productSelect(product)"></ion-checkbox>
+    
+        </ion-item>
+      </ion-list>
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreProduct($event)">
+          <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="Loading more data...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+    
+</div>
+        <ion-list *ngIf = "!segCtrl" >
+            <ion-item *ngFor= "let product of searchList">
+                <ion-thumbnail>
+                    <img src={{product.image_url}}>
+                  </ion-thumbnail>
+                  <ion-label >{{product.name}}</ion-label>
+                  <ion-checkbox  [disabled]="productIds.includes(product.import_id)" (ionChange)="productSelect(product)"></ion-checkbox>
+        
+            </ion-item>
+          </ion-list>
+    
+
+</ion-content>

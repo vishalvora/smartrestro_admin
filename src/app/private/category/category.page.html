@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-button color="dark" (click)="dismiss()">
+              <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+      </ion-buttons>    
+    <ion-title>category</ion-title>
+    <ion-button slot="end" fill="clear"  (click)="save()">save</ion-button>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-reorder-group disabled="false" (ionItemReorder)="doReorder($event)">
+      <ion-item *ngFor = "let category of category">
+        <ion-label>{{category}}</ion-label>
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+      </ion-reorder-group>
+
+</ion-content>

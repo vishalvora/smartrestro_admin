@@ -18,7 +18,15 @@ export class ProfilePage implements OnInit {
 
   ngOnInit() {
     // this.app_v = this.appVersion.getVersionNumber();
-    // console.log(this.app_v);
+    console.log('l: ' + this.appVersion.getVersionNumber());
+    this.appVersion.getVersionNumber().then(res=>{
+      console.log('a');
+      
+      console.log(res);
+      
+    }).catch(err => {
+      console.log(err);
+    });
     
     this.dbService.getUserData().subscribe(res=>{
       console.log(res);

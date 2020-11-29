@@ -159,7 +159,7 @@
     <div (click)="openOrder(order)" >
         <ion-item lines="none">
           <ion-label>
-          <p>{{order.customerName}}</p>
+          <p>{{order.customerName}} - <span style="font-size:12px">{{order.time_formated}}</span></p>
           <div style="font-size:14px; padding-bottom:3px">#{{order.orderNo}}</div>
           <!-- <ion-chip>
               <ion-label>paid</ion-label>

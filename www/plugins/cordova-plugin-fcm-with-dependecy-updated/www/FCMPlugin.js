@@ -1,5 +1,4 @@
-cordova.define("cordova-plugin-fcm-with-dependecy-updated.FCMPlugin", function(require, exports, module) {
-var exec = require("cordova/exec");
+cordova.define("cordova-plugin-fcm-with-dependecy-updated.FCMPlugin", function(require, exports, module) { var exec = require("cordova/exec");
 var cordova = require("cordova");
 
 function FCMPlugin() {

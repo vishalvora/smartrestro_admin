@@ -140,7 +140,12 @@
       
       
         </div>
-    </div>
+        </div>
+        <ion-item >
+          <ion-label>Variant Out Of Stock</ion-label>
+          <ion-toggle [(ngModel)]="variant.variantOOS"  name="status" (ionChange)="makeDirty()" [ngModelOptions]="{standalone: true}"></ion-toggle>
+        </ion-item>
+
     </div>
     <div style="height: 5px"></div>
   </div>

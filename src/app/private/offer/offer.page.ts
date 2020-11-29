@@ -21,7 +21,7 @@ export class OfferPage implements OnInit {
   }
   storeId=''
   dataSaving = false;
-
+customOffers = []
 
   constructor(private dbService : DatabaseService, private ngZone : NgZone, 
     private db: AngularFirestore,
@@ -38,7 +38,18 @@ export class OfferPage implements OnInit {
       this.offer = store.offer
           })
         }
-      })
+        if(store.hasOwnProperty('custom_offers')){
+          console.log('has offers!');
+          
+          this.ngZone.run(()=>{
+        this.customOffers = store.custom_offers
+            })
+          }
+          else{
+            console.log('no custome pffers');
+            
+          }
+        })
     }
 
 
@@ -49,7 +60,7 @@ export class OfferPage implements OnInit {
       offer.offer_status = false
     }
     if(this.storeId != ''){ 
-      this.db.collection('store_seller').doc(this.storeId).update({'d.offer': offer } ).then(res=>{
+      this.db.collection('store_seller').doc(this.storeId).update({'d.offer': offer, 'd.custom_offers':this.customOffers } ).then(res=>{
         console.log('document saved successfully!');
         this.dataSaving = false
         this.presentToast('offer saved!!')
@@ -77,4 +88,12 @@ export class OfferPage implements OnInit {
     toast.present();
   }
 
+  deleteOffer(index){
+    console.log(index);
+    this.customOffers.splice(index, 1)
+  }
+
+  addOffer(){
+    this.customOffers.push({offer:''})
+  }
 }

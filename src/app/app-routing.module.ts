@@ -85,6 +85,10 @@ const routes: Routes = [
   {
     path: 'storedisable',
     loadChildren: () => import('./private/storedisable/storedisable.module').then( m => m.StoredisablePageModule)
+  },
+  {
+    path: 'announcement',
+    loadChildren: () => import('./private/announcement/announcement.module').then( m => m.AnnouncementPageModule)
   }
 ];
 @NgModule({

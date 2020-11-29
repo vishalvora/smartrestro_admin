@@ -58,4 +58,16 @@
   </ion-item>
 </form>
 
+<div style="height:15px; background:lightgrey"></div>
+<ion-list>
+    <ion-list-header>
+        <ion-label>Custom Offers<p>Custome offers will be displayed on main page of your app</p></ion-label>
+        <ion-button (click)="addOffer()">Add offer</ion-button>
+    </ion-list-header>
+    <ion-item *ngFor = "let offer of customOffers, index as i">
+        <ion-input [(ngModel)]="offer.offer"></ion-input>
+        <ion-icon slot="end" name="trash-outline" (click)="deleteOffer(i)" ></ion-icon>
+
+      </ion-item>
+</ion-list>
 </ion-content>

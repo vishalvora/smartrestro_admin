@@ -89,8 +89,17 @@ dismiss() {
 createInvoice(order){
   this.order = order
   this.getImage()
-        this.storeName = this.order.store.storeName
-        this.invoice.storeName = this.order.store.storeName
+        if( this.order.hasOwnProperty('cartData')){
+          this.invoice.storeName =  this.order.cartData.store.name
+        }
+        else if (this.order.hasOwnProperty('store.storeName')){
+          console.log('not having property!!')
+          this.invoice.storeName = this.order.store.storeName
+        }
+        else {
+          this.invoice.storeName = ''
+        }
+        // this.invoice.storeName = this.order.store.storeName
         this.invoice.address = this.order.address
         this.invoice.invoiceNo = this.order.orderNo
         this.invoice.deliveryCharge = this.order.deliveryCharge

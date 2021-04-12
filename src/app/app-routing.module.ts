@@ -89,6 +89,14 @@ const routes: Routes = [
   {
     path: 'announcement',
     loadChildren: () => import('./private/announcement/announcement.module').then( m => m.AnnouncementPageModule)
+  },
+  {
+    path: 'customers',
+    loadChildren: () => import('./private/customers/customers.module').then( m => m.CustomersPageModule)
+  },
+  {
+    path: 'customerdetials',
+    loadChildren: () => import('./private/customersdetials/customersdetials.module').then( m => m.CustomersdetialsPageModule)
   }
 ];
 @NgModule({

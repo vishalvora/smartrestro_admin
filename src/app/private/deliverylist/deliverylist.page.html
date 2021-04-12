@@ -14,11 +14,52 @@
 <ion-content>
 
   <div style="font-size:12px; color: gray; padding:10px">This is the consolided list of the products for orders which is not accepted yet </div>
+{{selectedOrders}} out of {{totalOrders}} orders selected
+<div *ngIf="!displayCtrl">
+<div *ngFor = "let order of orders; index as i" >
+<ion-item >
+    <ion-checkbox slot="start" [(ngModel)]="order.isChecked" (ionChange)="selectionChnaged()"></ion-checkbox>
+  <ion-label>
+  <p>{{order.customerName}} - <span style="font-size:12px">{{order.time_formated}}</span></p>
+  <div style="font-size:14px; padding-bottom:3px">#{{order.orderNo}}</div>
+<span style="padding-right:10px">
+      <ion-badge color="medium" >{{order.paymentStatus}}</ion-badge></span>
+      <ion-badge color="light">{{order.orderStatus}}</ion-badge>
 
+</ion-label>
+<div>
+<div *ngIf = "!order.invoiceApproved">Rs {{order.amount}}</div>
+<div *ngIf = "order.invoiceApproved"><del style="padding-right:5px" *ngIf="order.amount != order.invoice.grandTotal">Rs {{order.amount}}</del> Rs {{order.invoice.grandTotal}}</div>
+<div *ngIf="order.rating">
+<ion-icon style="color:#fc8019" [name]="order.rating.currentRating >= 1?'star':'star-outline'">
+</ion-icon><ion-icon  style="color:#fc8019" [name]="order.rating.currentRating >= 2?'star':'star-outline'">
+</ion-icon><ion-icon style="color:#fc8019" [name]="order.rating.currentRating >= 3?'star':'star-outline'">
+</ion-icon><ion-icon style="color:#fc8019" [name]="order.rating.currentRating >= 4?'star':'star-outline'">
+</ion-icon><ion-icon style="color:#fc8019" [name]="order.rating.currentRating >= 5?'star':'star-outline'">
+</ion-icon></div>
 
-  <ion-item *ngFor = "let data of data">
+</div>
+
+</ion-item>
+</div>
+<div style="height: 100px"></div>
+  
+</div>
+<div *ngIf = "displayCtrl">
+  <ion-item *ngFor = "let data of finalArray">
     <ion-label>{{data.name}} </ion-label>
     <span> {{data.variants[data.selectedVariant].title}}</span>&nbsp; &times; &nbsp;
     <span style="padding-right:15px">  {{data.qty}}</span>
   </ion-item>
-</ion-content>
+  <div style="height: 100px"></div>
+
+</div>
+
+<div slot="fixed" style="bottom:0;z-index: 100; width:100%; padding:5px" *ngIf = "!displayCtrl">
+    <ion-button expand="block" (click)="consolidateItems()">OK</ion-button>
+  </div>
+  <div slot="fixed" style="bottom:0;z-index: 100; width:100%; padding:5px" *ngIf = "displayCtrl">
+      <ion-button expand="block" (click)="displayCtrl = false" >select orders</ion-button>
+    </div>
+
+  </ion-content>

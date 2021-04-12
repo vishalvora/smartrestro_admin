@@ -13,9 +13,17 @@
 
 <ion-content>
 
+  <ion-item>
+    <ion-label position="stacked">New category</ion-label>
+    <ion-input placeholder="add new category name here" [(ngModel)]="newcat"></ion-input>
+  </ion-item>
+
+  <ion-button (click)="addCategory(newcat)">Add category</ion-button>
+<div style="height:5px; background: lightgray;"></div>
     <ion-reorder-group disabled="false" (ionItemReorder)="doReorder($event)">
-      <ion-item *ngFor = "let category of category">
+      <ion-item *ngFor = "let category of category, index as i">
         <ion-label>{{category}}</ion-label>
+        <ion-icon name="close-outline" (click)="delete(i)"></ion-icon>
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>
       </ion-reorder-group>

@@ -117,6 +117,7 @@ export class Tab1Page {
   ];
   store: any;
   activeOrdersCount: any = 0;
+  activeOrdersList: any;
 
 
   constructor(private dbService: DatabaseService, 
@@ -130,33 +131,33 @@ export class Tab1Page {
       if(Object.keys(store).length>0){
         this.ngZone.run(()=>{
       this.store = store
-
-      this.db.collection('monthly_order_seller').doc(store.store_id).valueChanges().subscribe((res:any)=>{
-        console.log(res);
+          // ------------for bar chart
+      // this.db.collection('monthly_order_seller').doc(store.store_id).valueChanges().subscribe((res:any)=>{
+      //   console.log(res);
         
-        let date = new Date()
-        let tday = date.getDate()
-        console.log(tday);
-        console.log(date.toLocaleDateString());
+      //   let date = new Date()
+      //   let tday = date.getDate()
+      //   console.log(tday);
+      //   console.log(date.toLocaleDateString());
         
-        let monthSales = []
-        monthSales = res.sales
-        monthSales[tday-1] = res.today.sales
-        this.barChartData[0].data = monthSales 
-        this.sales[0] = res.today.sales
-        this.sales[1] = res.sales[tday-2]
-        this.sales[2] = res.this_week + this.sales[0]
-        this.sales[3] = res.sales.reduce((a, b) => a + b, 0)
-        this.orderCount[0]=res.today.orders
-        this.orderCount[1] = res.order[tday-2]
-        this.orderCount[2] = res.this_order
-        this.orderCount[3] = res.order.reduce((a, b) => a + b, 0) + res.today.orders
-        console.log(this.sales);
-        console.log(this.orderCount);
+      //   let monthSales = []
+      //   monthSales = res.sales
+      //   monthSales[tday-1] = res.today.sales
+      //   this.barChartData[0].data = monthSales 
+      //   this.sales[0] = res.today.sales
+      //   this.sales[1] = res.sales[tday-2]
+      //   this.sales[2] = res.this_week + this.sales[0]
+      //   this.sales[3] = res.sales.reduce((a, b) => a + b, 0)
+      //   this.orderCount[0]=res.today.orders
+      //   this.orderCount[1] = res.order[tday-2]
+      //   this.orderCount[2] = res.this_order
+      //   this.orderCount[3] = res.order.reduce((a, b) => a + b, 0) + res.today.orders
+      //   console.log(this.sales);
+      //   console.log(this.orderCount);
         
         
         
-      })
+      // })
  
     })
       console.log(this.store);
@@ -234,21 +235,21 @@ export class Tab1Page {
       
     // })
 
-    this.dbService.rating.subscribe((res:any)=>{
-      console.log(res);
-      if(Object.keys(res).length>0){
-        this.ngZone.run(()=>{
-          this.rating = res
-        })
+  //   this.dbService.rating.subscribe((res:any)=>{
+  //     console.log(res);
+  //     if(Object.keys(res).length>0){
+  //       this.ngZone.run(()=>{
+  //         this.rating = res
+  //       })
 
-      }
-  })
+  //     }
+  // })
 
   }
 
 
   activeOrders(){
-    this.snap =  this.db.firestore.collection('orders').where('time','>', this.currentDate ).where('store.storeID','==',this.storeId).where('orderStatus','in',['ordered','Accepted','Out For Delivery']).orderBy('time','desc').onSnapshot(res=>
+    this.snap =  this.db.firestore.collection('orders').where('time','>', this.currentDate ).where('cartData.store.store_id','==',this.storeId).where('orderStatus','in',['ordered','Accepted','Out For Delivery']).orderBy('time','desc').onSnapshot(res=>
       {
         console.log("active");
         console.log(res);
@@ -256,14 +257,15 @@ export class Tab1Page {
           this.activeOrdersCount = res.size
         })
       this.setDiaplayOrders(res)
-      this.newFn(res)
+      this.activeOrdersList = res
+      // this.newFn(res)
       
     })
 
   }
 
   orderedOrders(){
-    this.snap = this.db.firestore.collection('orders').where('time','>', this.currentDate ).where('store.storeID','==',this.storeId).where('orderStatus','in',['ordered']).orderBy('time','desc').onSnapshot(res=>
+    this.snap = this.db.firestore.collection('orders').where('time','>', this.currentDate ).where('cartData.store.store_id','==',this.storeId).where('orderStatus','in',['ordered']).orderBy('time','desc').onSnapshot(res=>
       {
         console.log("order");
 
@@ -273,7 +275,7 @@ export class Tab1Page {
   }
 
   acceptedOrders(){
-    this.snap =  this.db.firestore.collection('orders').where('time','>', this.currentDate ).where('store.storeID','==',this.storeId).where('orderStatus','in',['Accepted']).orderBy('time','desc').onSnapshot(res=>
+    this.snap =  this.db.firestore.collection('orders').where('time','>', this.currentDate ).where('cartData.store.store_id','==',this.storeId).where('orderStatus','in',['Accepted']).orderBy('time','desc').onSnapshot(res=>
       {
         console.log("accept");
 
@@ -283,7 +285,7 @@ export class Tab1Page {
   }
 
   ofdOrders(){
-    this.snap = this.db.firestore.collection('orders').where('time','>', this.currentDate ).where('store.storeID','==',this.storeId).where('orderStatus','in',['Out For Delivery']).orderBy('time','desc').onSnapshot(res=>
+    this.snap = this.db.firestore.collection('orders').where('time','>', this.currentDate ).where('cartData.store.store_id','==',this.storeId).where('orderStatus','in',['Out For Delivery']).orderBy('time','desc').onSnapshot(res=>
       {
         console.log("ofd");
 
@@ -605,7 +607,7 @@ if(order.paymentStatus != "paid"){
 
 allOrders(){
   console.log("all orders");
- this.snap =  this.db.firestore.collection('orders').where('time','>', this.currentDate ).where('store.storeID','==',this.storeId).orderBy('time','desc').onSnapshot(res=>{
+ this.snap =  this.db.firestore.collection('orders').where('time','>', this.currentDate ).where('cartData.store.store_id','==',this.storeId).orderBy('time','desc').onSnapshot(res=>{
     console.log(res);
     this.setDiaplayOrders(res)
   })
@@ -614,7 +616,7 @@ allOrders(){
 
 paymentPendingOrder(){
   console.log("payment panding");
-  this.snap = this.db.firestore.collection('orders').where('time','>', this.currentDate ).where('store.storeID','==',this.storeId).where('orderStatus','==','Delivered').where('paymentStatus','==','pending').orderBy('time','desc').onSnapshot(res=>{
+  this.snap = this.db.firestore.collection('orders').where('time','>', this.currentDate ).where('cartData.store.store_id','==',this.storeId).where('orderStatus','==','Delivered').where('paymentStatus','==','pending').orderBy('time','desc').onSnapshot(res=>{
     console.log(res);
     this.setDiaplayOrders(res)
   })
@@ -622,75 +624,13 @@ paymentPendingOrder(){
   
 }
 
-newFn(res){
-  this.finalArray = []
-  // console.log(res);
-  let orders = []
-  res.forEach(doc=>{
-    orders.push(doc.data())
-  })
-  // console.log(orders);
-  const groupBy = (array, key) => {
-    // Return the end result
-    return array.reduce((result, currentValue) => {
-      // If an array already present for key, push it to the array. Else create an array and push the object
-      (result[currentValue[key]] = result[currentValue[key]] || []).push(
-        currentValue
-      );
-      // Return the current iteration `result` value, this will be taken as next iteration `result` value and accumulate
-      return result;
-    }, {}); // empty object is the initial value for result object
-  };
-  
-  // Group by color as key to the person array
-  let orderGrpByStatus = groupBy(orders, 'orderStatus');
-  // console.log(orderGrpByStatus);
-  let orderedOrders = orderGrpByStatus.ordered.reduce((acc, it) => [...acc, ...it.cart], []);
-  // console.log(orderedOrders);
-  let grpByPid = groupBy(orderedOrders, 'product_id')
-  // console.log(grpByPid);
-
-  let fiArray = []
-  for(var id in grpByPid){
-    // console.log(grpByPid[id]);
-    let gbyvariant = groupBy(grpByPid[id], 'selectedVariant')
-    // console.log(gbyvariant);
-
-    for(var variant in gbyvariant){
-      
-      // console.log(gbyvariant[variant][0]);
-      
-      let qty = gbyvariant[variant].reduce((i, j) => i + j.qty, 0)
-      // console.log(qty);
-      let b  = gbyvariant[variant][0]
-      b.qty = qty
-      //gbyvariant[variant][0].qty = qty
-      //fiArray.push(gbyvariant[variant][0])
-      //this.finalArray = [...this.finalArray, ...gbyvariant[variant][0]]
-      this.finalArray.push(b)
-    }
-    // let qty = gbyvariant.reduce((i, j) => i + j.price * j.qty, 0)
-    // gbyvariant[0].qty = qty
-    // finalArray.push(gbyvariant[0])
-    // console.log(gbyvariant[0]);
-    
-  }
-  this.ngZone.run(()=>{
-  //   this.finalArray = []
-  //   this.finalArray = fiArray
-  // console.log(this.finalArray);
-  
-  // console.log(typeof(this.finalArray));
-  // console.log(typeof(this.ordersFilter));
-})
-}
 
 
 async deliveryListModal() {
   const modal = await this.modalController.create({
     component: DeliverylistPage,
     //cssClass: 'my-custom-class'
-    componentProps:{data : this.finalArray}
+    componentProps:{data : this.activeOrdersList}
   });
   return await modal.present();
 }
@@ -701,11 +641,7 @@ changeSelection(i){
 
 share(){
   console.log(this.store);
-  if (this.store.store_link == undefined || this.store.store_link == ''){
-  location.href ="https://wa.me/?text=stay at home, Order online at " + this.store.name + " visit our official website  www.snvmart.com/tabs/tab1;storeID=" + this.storeId
-}else {
-  location.href ="https://wa.me/?text=stay at home, Order online at " + this.store.name + " visit our official website   " + this.store.store_link 
-}
+  location.href ="https://wa.me/?text=stay at home, Order online from " + this.store.name + " visit our official website  finefood.web.app/restaurant/" + this.store.domain
 }
 }
 

@@ -146,7 +146,7 @@ export class DatabaseService {
       else {
 
         if(res.data().uid){
-          alert("no store has found, kindly add store")
+          alert("no restaurant has found, kindly add your restaurant")
           this.router.navigate(['slides'])
   
   

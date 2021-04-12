@@ -33,7 +33,7 @@ customOffers = []
     this.dbService.getStore().subscribe((store:any)=>{
       console.log(store);
       this.storeId = store.store_id
-      if(Object.keys(store.offer).length>0){
+      if(store.offer!= undefined && Object.keys(store.offer).length>0){
         this.ngZone.run(()=>{
       this.offer = store.offer
           })
@@ -64,6 +64,7 @@ customOffers = []
         console.log('document saved successfully!');
         this.dataSaving = false
         this.presentToast('offer saved!!')
+        this.dbService.storeData(this.storeId)
       }).catch(err=>{
         console.log('doucmnt not saved! err');
         this.dataSaving = false

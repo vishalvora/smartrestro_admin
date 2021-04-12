@@ -23,7 +23,7 @@ export class FirebaseAuthService {
           console.log(user);
           this.userId.next(user.uid)
           this.authState.next(true)
-          this.db.collection('userdata').doc(user.uid).update({device:this.platform.platforms(), appVersion:'0.1.6A'}).then(res=>{
+          this.db.collection('userdata').doc(user.uid).update({device:this.platform.platforms(), appVersion:'s1.0.6'}).then(res=>{
             console.log(res);
             
           })

@@ -84,7 +84,7 @@ export class SlidesPage implements OnInit {
       componentProps:{
         lat:this.storeDetail.lat,
         lng:this.storeDetail.lng,
-        radius:1
+        radius:5
       }
     });
     modal.onDidDismiss().then((data)=>{

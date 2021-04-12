@@ -89,8 +89,12 @@
         <ion-item>
           <ion-label position="stacked">Product title*</ion-label>
           <ion-input required [(ngModel)] = "product.name" name= "name" id="ngModel"></ion-input>
-          <!-- [(ngModel)] = "product.name" -->
         </ion-item>
+        <ion-item>
+            <ion-label position="stacked">Product description*</ion-label>
+            <ion-input [(ngModel)] = "product.description" name= "name" id="ngModel"></ion-input>
+          </ion-item>
+  
   </div>
   
     <div style="height:20px"></div>

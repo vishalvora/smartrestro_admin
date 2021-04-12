@@ -8,6 +8,7 @@ import { ModalController, ToastController } from '@ionic/angular';
 import { GoogleService } from '../services/google.service';
 import { SetradiusPage } from '../private/setradius/setradius.page';
 import { loadingController } from '@ionic/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class Tab3Page {
   @ViewChild('storeForm',{static: true}) storeForm: any;
   constructor(private dbService: DatabaseService, private modalController : ModalController,
     private toastController: ToastController,
-     private googleService : GoogleService,
+     private googleService : GoogleService, private db:AngularFirestore,
      private ngZone : NgZone) {
     //----------- test code for file upload
 
@@ -82,7 +83,7 @@ export class Tab3Page {
     this.imageUploadInprogress = true
     console.log(event);
     console.log(event.target.files[0]);
-    var ref = firebase.storage().ref().child('logo/' + this.storeId)
+    var ref = firebase.storage().ref().child( this.storeId+'/logo_'+this.storeId)
     ref.put(event.target.files[0]).then(res=>{
       console.log(res);
       ref.getDownloadURL().then(url=>{
@@ -117,13 +118,18 @@ export class Tab3Page {
     a.storeId = this.storeId;
     a.data = storeData
     // a.data['coordinates'] = new firebase.firestore.GeoPoint(40.7589, -73.9851)
-    const cloudFn = firebase.functions ().httpsCallable('updateStore');
-    cloudFn(a).then(result=>{
-      console.log(result);
-      this.dataSaving = false
-      this.presentToast("store detail updated successfully!")
-      this.makePristine()
+    // const cloudFn = firebase.functions ().httpsCallable('updateStore');
+    // cloudFn(a).then(result=>{
+    //   console.log(result);
+    //   this.dataSaving = false
+    //   this.presentToast("store detail updated successfully!")
+    //   this.makePristine()
       
+    // })
+    this.db.collection('store_seller').doc(this.storeId).update({'d':a.data}).then(res=>{
+      console.log('store updated')
+      this.dataSaving = false
+      this.presentToast('store data updated!')
     })
   }
 

@@ -11,6 +11,7 @@ import { present } from '@ionic/core/dist/types/utils/overlays';
 export class CategoryPage implements OnInit {
   @Input() storeId:string
   category
+  newcat:any
 
   constructor(private modalCtrl: ModalController, private db: AngularFirestore,  
     private toastController: ToastController,
@@ -60,5 +61,15 @@ export class CategoryPage implements OnInit {
       duration: 2000
     });
     toast.present();
+  }
+
+  addCategory(cat){
+    this.category.push(cat)
+    this.save()
+  }
+
+  delete(index){
+    console.log(index)
+    this.category.splice(index,1)
   }
 }

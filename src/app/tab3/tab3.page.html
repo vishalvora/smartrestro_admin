@@ -46,15 +46,14 @@
     </ion-item> -->
     
 
-<div style="height:15px; background:lightgrey"></div>
+<!-- <div style="height:15px; background:lightgrey"></div> -->
 
-  <ion-list style="padding-bottom:15px">
+  <!-- <ion-list style="padding-bottom:15px">
       <ion-list-header>
           Select Category
-        </ion-list-header>
-      <!-- <div>Select Categoty</div> -->
+        </ion-list-header> -->
 
-      <ion-item>
+      <!-- <ion-item>
           <ion-label>Category</ion-label>
           <ion-select multiple="true" [(ngModel)] = "store.store_category" (ionChange)="catChange($event)" [ngModelOptions]="{standalone: true}">
             <ion-select-option value="Grocery">Grocery</ion-select-option>
@@ -65,7 +64,7 @@
             <ion-select-option value="Home Essentials">Home Essentials</ion-select-option>
             <ion-select-option value="Other">Other</ion-select-option>
           </ion-select>
-        </ion-item>
+        </ion-item> -->
       
       <!-- old category -->
       <!-- <ion-item>
@@ -81,7 +80,7 @@
             <ion-checkbox [(ngModel)] = "store.isFruits" (ionChange)="makeDirty()" [ngModelOptions]="{standalone: true}"></ion-checkbox>
           </ion-item> -->
 
-    </ion-list>
+    <!-- </ion-list> -->
     <div style="height:15px; background:lightgrey"></div>
 
     <ion-item>
@@ -197,8 +196,13 @@
  <!-- <ion-button (click)="updateStoreData(store)">save</ion-button> -->
 </div>
 
+<div style="height:15px; background:lightgrey"></div>
 
+<ion-item  [routerLink]="['/tabs/profile']" lines="none">
+  <ion-label>Profile</ion-label>
+  <ion-icon name="chevron-forward-outline"></ion-icon>
+</ion-item>
 
-<!-- new category -->
+<div style="height:15px; background:lightgrey"></div>
 
 </ion-content>

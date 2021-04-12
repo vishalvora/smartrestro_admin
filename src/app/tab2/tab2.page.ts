@@ -85,7 +85,7 @@ export class Tab2Page {
   }
 
   segmentChanged(event){
-    // this.selectedCatalogue = event.detail.value
+    console.log(this.selectedCatalogue)
     this.db.firestore.collection('product_seller').where('storeID','==',this.storeId).where('category','==',this.selectedCatalogue).orderBy('product_id','asc').limit(15).onSnapshot(res=>{
       let a:any = {}
       this.productList = []
@@ -283,7 +283,7 @@ export class Tab2Page {
   async presentModalProductEdit(id) {
     const modal = await this.modalController.create({
       component: EditproductPage,
-      componentProps : {product : id, cat:this.categoryList}
+      componentProps : {id : id, cat:this.categoryList}
     });
     return await modal.present();
  

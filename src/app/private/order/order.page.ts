@@ -38,7 +38,7 @@ storeId
         console.log(res.data());
         this.order = res.data()
         this.order.id = res.id
-        this.storeId = this.order.store.storeID
+        this.storeId = this.order.cartData.store.store_id
         let time =  new Date (this.order.time)
         this.day = time.getDate()
         console.log(this.day);
@@ -79,16 +79,11 @@ storeId
 
   
 acceptOrder(order){
-  // order.cart.forEach(item=>{
-  //   if(!item.status){
-  //     order.status = "accepted"
-  //   }
-  // })
   console.log(order)
   order.cart.forEach((item:any)=>{
-    console.log(item);
+    console.log(item.status);
     if(!item.status){
-      item.status = 'accepted'
+      // item.status = 'accepted'
     }
     if(item.status === 'accepted'){
       // reduce qty from inventory
@@ -333,5 +328,34 @@ acceptOrder(order){
       });
   
       await alert.present();
+    }
+
+
+    shareOrder(){
+      let msg = ''
+      console.log(this.order)
+      msg = msg + 'order no: ' + this.order.orderNo
+      msg = msg + '%0A%0A' + 'customer name: ' + this.order.customerName
+      msg = msg +'%0A%0A' + 'address: ' + this.order.address.houseNo + " - " + this.order.address.landmark 
+      msg = msg +'%0A%0A' + 'mobile: ' + this.order.customerPhone
+      msg = msg + '%0A ```'
+      this.order.cart.forEach(line=>{
+        msg = msg + '%0A' + line.name + ' ' + line.variants[line.cartVariant].title + ' (' + line.acceptedQty + ' nos)' + ' - ₹' +line.price
+        msg = msg + '%0A' + '---------------------'
+      })
+
+
+      msg = msg + '%0A%0A' +'total: ' + this.order.cartData.grandTotal
+
+      if (this.order.note != undefined){
+      msg = msg + '%0A%0A' +'note: ' + this.order.note
+      }
+      else {
+        msg = msg + '%0A%0A' +'note: ' + ''
+      }
+      msg = msg + '```'
+      console.log(msg)
+      location.href ="https://wa.me/?text="  + msg
+
     }
 }

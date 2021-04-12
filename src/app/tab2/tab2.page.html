@@ -50,10 +50,10 @@
   <div>
   {{product.name}}
   </div>
-  <div style="font-size:12px">{{product.variants.length}} variants <span *ngFor="let variant of product.variants">&bull; {{variant.title}}(&#8377;{{variant.price}})</span>
-  <div style="font-size:12px" *ngIf = "product.looseItem">Losse item: {{product.lInventory}} &nbsp; {{product.lUnit}}</div>
+  <!-- <div style="font-size:12px">{{product.variants.length}} variants <span *ngFor="let variant of product.variants">&bull; {{variant.title}}(&#8377;{{variant.price}})</span>
+  <div style="font-size:12px" *ngIf = "product.looseItem">Losse item: {{product.lInventory}} &nbsp; {{product.lUnit}}</div> -->
 
-  </div>
+  <!-- </div> -->
 
 </ion-label>
 
@@ -105,8 +105,8 @@
 
 
 
-      <div style="display: flex;text-align: center;height: 4  0px;background: antiquewhite; bottom: 0;width: 100%;" slot="fixed"> 
-        <div style="width: 50%; line-height: 40px;" (click)="presentModalAdd();">Add Product</div>
-        <div style="width: 50%; line-height: 40px; background: darkseagreen" (click)="presentImportModal()">Import Product</div>
+      <div style="display: flex;text-align: center;height: 4  0px;background: var(--ion-color-primary);; bottom: 0;width: 100%;" slot="fixed"> 
+        <div style="width: 100%; line-height: 40px;" (click)="presentModalProductEdit('new')">Add Product</div>
+        <!-- <div style="width: 50%; line-height: 40px; background: darkseagreen" (click)="presentImportModal()">Import Product</div> -->
       </div>
 </ion-content>

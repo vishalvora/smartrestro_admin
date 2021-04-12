@@ -1,12 +1,12 @@
 {
   "projects": {
-    "default": "snv-mart"
+    "default": "finefood-e82d1"
   },
   "targets": {
-    "snv-mart": {
+    "finefood-e82d1": {
       "hosting": {
-        "partner": [
-          "partner-snv-mart"
+        "default": [
+          "admin-finefood"
         ]
       }
     }

@@ -56,7 +56,7 @@ export class InvoicePage implements OnInit {
 getImage(){
   console.log(this.order.store);
   
-  this.db.collection('store_seller').doc(this.order.store.storeID).get().subscribe(res=>{
+  this.db.collection('store_seller').doc(this.order.cartData.store.store_id).get().subscribe(res=>{
     console.log(res.data().d.logo_url);
     this.ngZone.run(()=>{
       this.logo_url = res.data().d.logo_url
@@ -89,23 +89,12 @@ dismiss() {
 createInvoice(order){
   this.order = order
   this.getImage()
-        if( this.order.hasOwnProperty('cartData')){
           this.invoice.storeName =  this.order.cartData.store.name
-        }
-        else if (this.order.hasOwnProperty('store.storeName')){
-          console.log('not having property!!')
-          this.invoice.storeName = this.order.store.storeName
-        }
-        else {
-          this.invoice.storeName = ''
-        }
         // this.invoice.storeName = this.order.store.storeName
         this.invoice.address = this.order.address
         this.invoice.invoiceNo = this.order.orderNo
-        this.invoice.deliveryCharge = this.order.deliveryCharge
-        if(this.order.cartData != undefined){
+        this.invoice.deliveryCharge = this.order.cartData.deliveryCharge
         this.invoice.discount = this.order.cartData.discount
-        }
         this.invoice.customerName = this.order.customerName
         this.invoice.CustomerPhone = this.order.customerPhone
         this.order.time_formated  = new Date(this.order.time).toLocaleDateString()
@@ -115,17 +104,10 @@ createInvoice(order){
         this.invoice.subtotal = 0
         this.invoice.cart = []
         this.order.cart.forEach(item=>{
-          if(item.status == "accepted"){
-            if("acceptedQty" in item){
           item.item_total = item.acceptedQty * item.price
-            }else{
-              item.item_total = item.qty * item.price
-            }
           this.invoice.cart.push(item)
           this.subtotal = this.subtotal + item.item_total
           this.invoice.subtotal = this.invoice.subtotal + item.item_total
-          }
-          
         })
 
         if(parseInt(this.order.deliveryCharge) > 0){

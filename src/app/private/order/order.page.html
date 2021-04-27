@@ -56,8 +56,10 @@
   <div class="items" >
        
         <ion-item *ngFor = "let item of order.cart, index as j" >
-          <ion-label style="white-space: normal !important;" ><p>{{item.name}} </p></ion-label>
+          <ion-label style="white-space: normal !important;" ><p>{{item.name}} </p><div style="font-size: 12px;">{{item.optionalstr}}</div></ion-label>
+          
           <span >Rs. {{item.price}}</span ><span>&times;</span>
+          
           <span *ngIf="item.hasOwnProperty('acceptedQty')">
           <span style="padding-right:10px;" *ngIf=  "order.orderStatus == 'ordered' && item.acceptedQty" >{{item.qty}}</span><span style="padding-right:10px;" *ngIf= "!(order.orderStatus == 'ordered')"><del *ngIf ="item.qty != item.acceptedQty" style="padding-right:5px">{{item.qty}}</del>{{item.acceptedQty}}</span>
           </span>

@@ -194,7 +194,7 @@ acceptOrder(order){
   async presentAlertConfirm(order) {
     const alert = await this.alertController.create({
       header: 'Confirm!',
-      message: 'Did you receive payment for this order outside of snvmart? order will be mark as paid',
+      message: 'Did you receive payment for this order? order will be mark as paid',
       buttons: [
         {
           text: 'Cancel',

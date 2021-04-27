@@ -178,6 +178,7 @@ export class DatabaseService {
     let a:any = {}
   
     a.data = storeData
+    // this.db.firestore.collection('store_seller').set({'d':a}).then(res=>{console.log(res);})
     // a.data['coordinates'] = new firebase.firestore.GeoPoint(40.7589, -73.9851)
     const cloudFn = firebase.functions ().httpsCallable('addStore');
     cloudFn(a).then(result=>{

@@ -1,14 +1,5 @@
 {
   "projects": {
-    "default": "finefood-e82d1"
-  },
-  "targets": {
-    "finefood-e82d1": {
-      "hosting": {
-        "default": [
-          "admin-finefood"
-        ]
-      }
-    }
+    "default": "restaurant-1e27c"
   }
 }

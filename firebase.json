@@ -1,7 +1,7 @@
 {
   "hosting": {
-    "target": "default",
-    "public": "platforms/browser/www",
+"site": "smart-restro-admin",
+    "public": "www",
     "ignore": [
       "firebase.json",
       "**/.*",

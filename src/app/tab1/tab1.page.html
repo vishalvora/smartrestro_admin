@@ -1,0 +1,234 @@
+<ion-content [fullscreen]="true">
+<div style="max-width:700px; margin:auto;">
+    <div style="background:#002266; padding:10px;  max-width:700px; margin: auto" *ngIf="false">
+      <div style=" display: flex; background: #002266;
+      display: flex;
+      text-align: center;
+      border: 1px solid blue;
+      border-radius: 5px;
+      margin: 0 10px;
+      font-size:13px;
+      color: white;">
+        <div style="width:25%; border-right: 1px solid blue;
+        /* background: blue; */
+        padding: 3px 0;" [style.background] = "currentSelection === 0?'blue':''" (click)="changeSelection(0)">Today</div>
+        <div style="width:25%; border-right: 1px solid blue;
+        /* background: blue; */
+        padding: 3px 0;" [style.background] = "currentSelection === 1?'blue':''" (click)="changeSelection(1)">Yesterday</div>
+        <div style="width:25%; border-right: 1px solid blue;
+        /* background: blue; */
+        padding: 3px 0;" [style.background] = "currentSelection === 2?'blue':''" (click)="changeSelection(2)">This week</div>
+        <div style="width:25%; 
+        /* background: blue; */
+        padding: 3px 0;" [style.background] = "currentSelection === 3?'blue':''" (click)="changeSelection(3)">This month</div>
+      </div>
+      <div style="text-align: center; padding: 5px; width:100%; color:white">
+        <div style="font-size: 14px; padding-bottom:2px">Total sales</div>
+        <div style="font-size: 30px; padding-bottom:2px">&#8377; {{sales[currentSelection]}}</div>
+        <div style="font-size: 14px; padding-bottom:5px">{{orderCount[currentSelection]}} orders</div>
+      </div>
+          
+
+    <div style="display: block; background:#002266;">
+      <canvas style="padding-right: 10px; padding: 5px 10px 5px 5px;" baseChart [datasets]="barChartData" chartType="bar" [labels]="mbarChartLabels" [options]="barChartOptions"    [colors]="barChartColors"
+      ></canvas>
+    </div>
+  </div>
+    <div style="height:10px;"></div>
+
+
+<div style="display:flex" *ngIf="false">
+<div style="text-align: center; width: 100%; text-align: center; background:white; padding-top:5px">
+  <div style="font-size: 14px; padding-bottom:2px">Rating</div>
+  <div style="font-size: 30px; padding-bottom:2px"><ion-icon name="star"></ion-icon><span >{{rating.rating}}</span></div>
+  <div style="font-size: 14px; padding-bottom:5px"> {{rating.ratingTotal}} Review</div>
+</div>
+</div>
+
+<div style="height:10px;"></div>
+
+
+<!-- <ion-item (click)="deliveryListModal()" lines="full">
+  <ion-label>Products to be delivered</ion-label>
+  <ion-icon slot="end"  name="chevron-forward-outline"></ion-icon>
+  <ion-icon slot="start" name="push-outline"></ion-icon>
+</ion-item> -->
+
+<!-- <ion-item  lines="full">
+  <ion-label>visit your website <a href="http://finefood.web.app/restaurant/{{store?.domain}}">https://finefoods.web.app/restaurant/{{store?.domain}}</a> </ion-label> -->
+  <!-- <ion-icon slot="end"  name="chevron-forward-outline"></ion-icon> -->
+  <!-- <ion-icon slot="start" name="push-outline"></ion-icon>
+</ion-item> -->
+
+ 
+<ion-item lines="full">
+  <ion-label>{{activeOrdersCount}} orders to be delivered</ion-label>
+  <ion-icon slot="start" name="open-outline"></ion-icon>
+</ion-item>
+
+<!-- <ion-item lines ="none" (click)="share()">
+  <ion-icon slot="start" name="link-outline"></ion-icon>
+  <ion-label>Share your website on whatsapp</ion-label>
+  <ion-button slot="end" style="color:white" color="success">    
+      <ion-icon slot="start" name="logo-whatsapp" style="padding:5px"></ion-icon>
+      Share
+    </ion-button>
+</ion-item> -->
+
+
+<div style="height:10px;"></div>
+
+      <ion-item lines="none" style="font-size:14px">
+        <ion-label>Filter Orders</ion-label>
+        <ion-select placeholder="Select status" value="active" (ionChange)="filterOrder($event)">
+          <ion-select-option value="active" >Active Orders</ion-select-option>
+          <ion-select-option value="all" >All</ion-select-option>
+          <ion-select-option value="pending" >Payment Pending</ion-select-option>
+          <ion-select-option value="ordered" >Ordered</ion-select-option>
+          <ion-select-option value="accepted" >Accepted</ion-select-option>
+          <ion-select-option value="ofd" >Out For Delivery</ion-select-option>
+
+        </ion-select>
+        
+      </ion-item>
+
+
+
+<div style="height:10px;"></div>
+
+
+
+<div *ngFor = "let order of ordersFilter; index as i"  style="position:relative">
+
+    <div style="position: absolute; right:10px; width: 50px; height: 30px; z-index: 5" (click)="presentActionSheet(order)">
+        <ion-icon style="float: right;" name="ellipsis-horizontal-outline"></ion-icon>
+      </div>
+
+    <div (click)="openOrder(order)" >
+        <ion-item lines="none">
+          <ion-label>
+          <p>{{order.customerName}} - <span style="font-size:12px">{{order.time_formated}}</span></p>
+          <div style="font-size:14px; padding-bottom:3px">#{{order.orderNo}}</div>
+<span style="padding-right:10px">
+              <ion-badge color="medium" >{{order.paymentStatus}}</ion-badge></span>
+              <ion-badge color="light">{{order.orderStatus}}</ion-badge>
+
+        </ion-label>
+        <div>
+        <div *ngIf = "!order.invoiceApproved">Rs {{order.amount}}</div>
+        <div *ngIf = "order.invoiceApproved"><del style="padding-right:5px" *ngIf="order.amount != order.invoice.grandTotal">Rs {{order.amount}}</del> Rs {{order.invoice.grandTotal}}</div>
+        <div *ngIf="order.rating">
+        <ion-icon style="color:#fc8019" [name]="order.rating.currentRating >= 1?'star':'star-outline'">
+        </ion-icon><ion-icon  style="color:#fc8019" [name]="order.rating.currentRating >= 2?'star':'star-outline'">
+        </ion-icon><ion-icon style="color:#fc8019" [name]="order.rating.currentRating >= 3?'star':'star-outline'">
+        </ion-icon><ion-icon style="color:#fc8019" [name]="order.rating.currentRating >= 4?'star':'star-outline'">
+        </ion-icon><ion-icon style="color:#fc8019" [name]="order.rating.currentRating >= 5?'star':'star-outline'">
+        </ion-icon></div>
+        
+      </div>
+
+        </ion-item>
+        <ion-item style="font-size:12px">
+            <ion-icon name="location-outline"></ion-icon>
+            <ion-label style="white-space: normal !important;" >
+                {{order.address.houseNo}} {{order.address.landmark}} 
+              </ion-label >
+        </ion-item>
+        </div>
+      </div>
+    
+
+  <ion-list style="background:#EFEFEF"  *ngIf = false>
+  <ion-card *ngFor = "let order of orders; index as i" >
+      <div (click)="expand(i)">
+    <div style="text-align:center; background: coral ; color:white" *ngIf = "order.paymentMode == 'cash'" >Pay on delivery</div>
+    <div style="text-align:center; background:lightgreen; color:white" *ngIf = "order.paymentMode == 'online'">Online payment</div>
+
+  <ion-item lines="none">
+    <ion-label>
+    <div>{{order.customerName}}</div>
+    <p>phone :{{order.customerPhone}}</p>
+    <p>#{{order.orderNo}} - {{order.time_formated}}</p>
+    
+  </ion-label>
+
+  <div>
+      <div style="margin-right:15px; text-align: center"><div> Rs {{order.amount}}</div></div>
+
+      <div>
+        <span style="background:coral; line-height: 30px; border-radius: 3px; padding:3px; color:white"> {{order.orderStatus}}</span>
+        <div>
+      </div>
+      </div>
+      
+    </div>
+
+    
+  </ion-item>
+</div>
+
+  <ion-item>
+    <ion-label [style.color] = "order.paymentStatus == 'paid'?'green':'red'">payment : {{order.paymentStatus}}</ion-label>
+    <ion-button fill="clear" *ngIf = "order.paymentStatus == 'pending' || order.paymentStatus == 'processing'" (click)="presentAlertConfirm(order)">
+        mark as paid
+      </ion-button>
+        </ion-item>
+
+
+
+
+<ion-item lines="none" >
+    <ion-icon slot="start" name="location-outline" style="padding-right:5px"></ion-icon>
+    <ion-label style="white-space: normal !important;" >
+    {{order.address.houseNo}} {{order.address.landmark}} 
+  </ion-label > 
+    <ion-button (click)="createInvoice(order)"  *ngIf = "(order.orderStatus == 'Delivered') || (order.orderStatus == 'Accepted') || (order.orderStatus == 'Out For Delivery')">
+        <span *ngIf = "!order.invoiceApproved">create</span> &nbsp;  invoice 
+    </ion-button>
+
+</ion-item>
+
+  <div class="items" *ngIf = "order.expand">
+    <div style="padding:10px"> <span>{{order.address.formatted_address}}</span></div>
+     
+      <ion-item *ngFor = "let item of order.cart, index as j" >
+        <ion-label style="white-space: normal !important;" ><p>{{item.name}} - {{item.variants[item.selectedVariant].title}}</p></ion-label>
+        <span>Rs. {{item.price}}</span><span>&times;{{item.qty}}</span>
+        <ion-icon style="color:darkgreen" name="checkmark-circle-outline" (click)="acceptItem(order.cart, i,j)" *ngIf="!item.hasOwnProperty(status) && !(item.status == 'rejected')" > </ion-icon>
+      <ion-icon style="color:red" name="close-circle-outline" (click)="rejectItem(order.cart, i, j)" *ngIf="!item?.hasOwnProperty(status) && !(item.status == 'accepted') "></ion-icon>
+      </ion-item>
+      
+    </div>
+
+
+    <div style="display:flex;"  *ngIf = "order.orderStatus == 'ordered'">
+      
+      <div style="flex-grow: 1">
+        <ion-button expand="full" color = "medium" size="small" (click)="rejectOrder(order)">Reject</ion-button>
+      </div>
+      <div style="flex-grow: 1">
+      <ion-button expand="full" size="small" (click)="acceptOrder(order)">Accept</ion-button>
+      </div>
+    
+    </div>
+
+    <div  *ngIf = "order.orderStatus == 'Accepted'">
+        <ion-button expand="full" color = "medium" size="small" (click)="ourForDeliveryOrder(order)">Out For delivery</ion-button>
+    </div>
+
+    <div  *ngIf = "order.orderStatus == 'Out For Delivery'">
+        <ion-button expand="full" color = "medium" size="small" (click)="deliveredOrder(order)">Delivered</ion-button>
+    </div>
+
+  </ion-card>
+</ion-list>
+
+<div style=" height: 100%;" *ngIf = false>
+  <div style="display:flex; flex-direction:column; height: 100%">
+    <div style="flex-grow:1; "></div>
+    <div style="text-align: center"><h2>No Orders</h2></div>
+    <div style="flex-grow:1"></div>
+</div>
+</div>
+</div>
+</ion-content>

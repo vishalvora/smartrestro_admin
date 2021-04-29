@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <!-- <div  style="padding:10px">
+        <div style="padding-bottom:5px"><span>{{userData.name}}</span></div>
+        <div style="padding-bottom:20px" class="secondaryFont">
+        <span style="padding-right:20px;" >{{userData.phone}}</span><span>{{userData.email}}</span>
+      </div>
+        <div style="border-bottom: 1px solid black"></div>
+      
+      </div> -->
+
+<div style="padding: 10px 10px 10px 10px; background: white">
+      <h6>{{userData.name}}</h6>
+      <ion-label>
+        <p><span style="padding-right:10px">{{userData.phone}}</span><span>{{userData.email}}</span></p>
+      </ion-label>
+    </div> 
+
+    <div style="height: 30px; width:100%; "></div>
+
+    <ion-item lines="none" (click)="presentAlertConfirmLogout()">
+        <ion-label>
+          <p> LOGOUT </p>
+        </ion-label>
+        <p slot="end"> <ion-icon name="power-sharp"></ion-icon></p>
+    </ion-item>
+    <div style="text-align:center; color : #bebfc5; font-size: 14px; margin-top:28px ">App version 1.0.6</div>
+  
+  
+<!-- <ion-button (click)="logOut()">Logout</ion-button> -->
+</ion-content>

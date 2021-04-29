@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
+    <ion-title>Create order</ion-title>
+    <ion-button slot="end" fill="clear"   (click)="saveProduct()">save</ion-button>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class= "price" style="display:flex; padding:10px 0; border-bottom: 1px solid lightgray " *ngFor = "let product of cart  ">
+        <div class="rs" style="flex: 5 1 0%">
+          <div>{{product.name}} - {{product.variants[product.selectedVariant].title}} </div>
+          <div>Rs. {{product.price}} </div>
+        </div>
+        <div class="addToCart" style="align-items: center; justify-content: center" >
+          <div style="display:flex">
+          <div style="height:23px; width:23px; background: #2296ff;  text-align: center; color: white; line-height: 23px; margin:10px 0 " (click)="changeQty(product.product_id, -1)"><span>-</span></div>
+          <div style="height:23px; width:23px; background: white;  text-align: center; color: black; line-height: 23px; margin:10px 0"><span>{{product.qty}}</span></div>
+          <div style="height:23px; width:23px; background: #2296ff;  text-align: center; color: white; line-height: 23px; margin:10px 0" (click)="changeQty(product.product_id, 1)"><span>+</span></div>
+        </div>
+        </div>
+        <div style="border-bottom: 1px solid grey !important;"></div>
+      </div>
+  
+  <ion-button fill="clear" (click)="addProduct()">Add product</ion-button><br>
+  <!-- <ion-button fill="clear">Add custom item</ion-button> -->
+
+</ion-content>

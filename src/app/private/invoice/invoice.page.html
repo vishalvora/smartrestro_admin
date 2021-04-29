@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar> 
+    <ion-buttons slot="start">
+      <ion-button color="dark" (click)="dismiss()">
+          <ion-icon name="arrow-back"></ion-icon>
+        </ion-button>
+  </ion-buttons>
+
+  <ion-buttons slot="end">
+    <ion-button color="dark" onclick="window.print()">
+        <ion-icon name="print"></ion-icon>
+      </ion-button>
+</ion-buttons>
+
+    <ion-title>invoice</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <div style="margin:020px; background:white; padding:15px" class="invoice">
+      <div style="display:flex">
+        <div style="flex-grow:1"></div>
+        <div>
+            <ion-thumbnail style="height:80px; width:80px; margin: 0 auto">
+                <img src={{invoice.logo_url}}>
+              </ion-thumbnail>
+                <div style="text-align: center; padding:5px 0">{{invoice.storeName}}</div>
+        </div>
+        <div style="flex-grow:1"></div>
+      </div>
+  
+  <div style="border: 1px dashed black"></div>
+      <div style="padding:10px">
+          <div>Invoice No :{{invoice.invoiceNo}} </div>
+          <div>Date :{{invoice.time_formated}} </div>
+          <div *ngIf = "invoice.isGST">GST No : {{invoice.gstNo}}</div>
+          <div *ngIf = "invoice.isFSSAI">FSSAI No :{{invoice.fssaiNo}}</div>
+      </div>
+  <div style="padding:10px">
+  <div>Customer name :{{invoice.customerName}}</div>
+  <div>Customer phone: {{invoice.CustomerPhone}}</div>
+  <div>Address : {{invoice?.address?.houseNo}}</div>
+  </div>
+      <div style="border: 1px dashed black"></div>
+  <div *ngFor = "let item of invoice.cart">
+      <ion-item >
+        <ion-label>{{item.name}}</ion-label>
+        <div style="padding-right:20px">&#8377;{{item.price}} &times;
+            <span *ngIf="!(item.hasOwnProperty('acceptedQty'))">{{item.qty}}</span>
+                
+            <span *ngIf="(item.hasOwnProperty('acceptedQty'))">{{item.acceptedQty}}</span>
+          </div>
+        <div>&#8377;{{item.item_total}}</div>
+      </ion-item>
+    </div>
+  
+        <ion-item style="height:30px">
+            <ion-label></ion-label>
+            <div style="padding-right:20px">sub total</div>
+            <div>&#8377;{{invoice.subtotal}}</div>
+          </ion-item>
+  
+          <ion-item style="height:35px" *ngIf = "invoice.deliveryCharge">
+              <ion-label></ion-label>
+              <div style="padding-right:20px">delivery charges</div>
+              <div>&#8377;{{invoice.deliveryCharge}}</div>
+            </ion-item>
+
+            <ion-item style="height:35px" *ngIf = "invoice.discoun >0 ">
+                <ion-label></ion-label>
+                <div style="padding-right:20px">Discount</div>
+                <div>&#8377;{{invoice.discount}}</div>
+              </ion-item>
+  
+  
+            <ion-item style="height:30px">
+                <ion-label></ion-label>
+                <div style="padding-right:20px">Total</div>
+                <div>&#8377;{{invoice.grandTotal}}</div>
+              </ion-item>
+    
+      <div style="width: 100%;padding-top:20px">
+        <div style="text-align: center"> -------------- thank you --------------</div>
+      </div>
+    
+    </div>
+  
+
+
+
+  <ion-button expand="full" (click)="approveInvoice()" [disabled]="invoiceApproved">Approve and send to customer</ion-button>
+</ion-content>

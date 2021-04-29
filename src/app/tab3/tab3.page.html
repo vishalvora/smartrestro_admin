@@ -1,0 +1,208 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Configuration
+    </ion-title>
+    <ion-button slot="end" fill="clear" [disabled]= "!storeForm.valid" (click)="updateStoreData(store)">save</ion-button>
+    <ion-progress-bar type="indeterminate" *ngIf = "dataSaving"></ion-progress-bar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+<ion-item style="--background: red" *ngIf = "!store.is_active">
+  <ion-icon slot="start" name="alert-circle-outline"></ion-icon>
+  <ion-label class="ion-text-wrap" style="font-size:13px">Your store is closed righ now, to enable turn on store status</ion-label>
+</ion-item>
+  <!-- <input type="file" (change)="logoSelected($event)"> -->
+  <form action="" #storeForm="ngForm">
+  <div style="text-align:center"> 
+      <ion-item>
+        <ion-thumbnail slot="start">
+            <img src={{store.logo_url}} *ngIf="!imageUploadInprogress">
+            <ion-spinner name="bubbles" *ngIf="imageUploadInprogress"></ion-spinner>
+
+        </ion-thumbnail>
+        <ion-label><input type="file" (change)="logoSelected($event)"></ion-label>
+      </ion-item>  
+  </div>
+ 
+
+
+ <ion-item style="padding-bottom:15px">
+    <ion-label position="stacked">Enter Your business name</ion-label>
+    <ion-input required name ="name" id = "ngModel" [(ngModel)] = "store.name"></ion-input>
+  </ion-item>
+<div style="height:15px; background:lightgrey"></div>
+
+<ion-item lines="none">
+<ion-label>Store status</ion-label>
+<ion-toggle   [(ngModel)]="store.is_active" (ionChange)="makeDirty()" [ngModelOptions]="{standalone: true}" name="status" ></ion-toggle>
+</ion-item>
+
+<!-- <ion-item>
+    <ion-label>Store availability</ion-label>
+    <ion-toggle   [(ngModel)]="!store.is_close" (ionChange)="makeDirty()" [ngModelOptions]="{standalone: true}" name="availablity" ></ion-toggle>
+    </ion-item> -->
+    
+
+<!-- <div style="height:15px; background:lightgrey"></div> -->
+
+  <!-- <ion-list style="padding-bottom:15px">
+      <ion-list-header>
+          Select Category
+        </ion-list-header> -->
+
+      <!-- <ion-item>
+          <ion-label>Category</ion-label>
+          <ion-select multiple="true" [(ngModel)] = "store.store_category" (ionChange)="catChange($event)" [ngModelOptions]="{standalone: true}">
+            <ion-select-option value="Grocery">Grocery</ion-select-option>
+            <ion-select-option value="Vegetables & Fruits">Vegetables & Fruits</ion-select-option>
+            <ion-select-option value="Stationery">Stationery</ion-select-option>
+            <ion-select-option value="Home services">Home services</ion-select-option>
+            <ion-select-option value="Food">Food</ion-select-option>
+            <ion-select-option value="Home Essentials">Home Essentials</ion-select-option>
+            <ion-select-option value="Other">Other</ion-select-option>
+          </ion-select>
+        </ion-item> -->
+      
+      <!-- old category -->
+      <!-- <ion-item>
+        <ion-label>Grocery</ion-label>
+        <ion-checkbox [(ngModel)] = "store.isGrocery" (ionChange)="makeDirty()" [ngModelOptions]="{standalone: true}"></ion-checkbox>
+      </ion-item>
+      <ion-item>
+          <ion-label>Vegetables</ion-label>
+          <ion-checkbox [(ngModel)] = "store.isVegetables" (ionChange)="makeDirty()" [ngModelOptions]="{standalone: true}"></ion-checkbox>
+        </ion-item>
+        <ion-item>
+            <ion-label>Fruits</ion-label>
+            <ion-checkbox [(ngModel)] = "store.isFruits" (ionChange)="makeDirty()" [ngModelOptions]="{standalone: true}"></ion-checkbox>
+          </ion-item> -->
+
+    <!-- </ion-list> -->
+    <div style="height:15px; background:lightgrey"></div>
+
+    <ion-item>
+        <ion-label position="stacked">Phone No:</ion-label>
+        <ion-input required name="phone" minlength="10" maxlength="10" inputmode="tel" type="tel" id="ngModel" [(ngModel)] = "store.phone">+91 </ion-input>
+      </ion-item>
+
+      <ion-item>
+          <ion-label position="stacked">whatsapp No:</ion-label>
+          <ion-input required name="whatsapp" minlength="10" maxlength="10" inputmode="tel" type="tel" id="ngModel" [(ngModel)] = "store.phone_whatsapp">+91 </ion-input>
+        </ion-item>
+        <div style="height:15px; background:lightgrey"></div>
+
+    <div>
+      <!-- <ion-list-header>Store Location</ion-list-header>
+      <ion-item lines="none">
+        <ion-label required name= "location" position="stacked">
+          {{store.address?.formatted_address}}
+        </ion-label>
+        <div style="color:tomato" (click)="changeLocation()">change</div>
+      </ion-item> -->
+
+      <ion-item>
+          <ion-label position="stacked">Store Location*</ion-label>
+          <div required name= "location" style="font-size:12px; padding-top:10px">{{store.address?.formatted_address}}</div>
+              <span style="color:tomato" slot="end" (click)="changeLocation()">change</span>
+        </ion-item>
+
+
+
+      <ion-item>
+          <ion-label position="stacked">Serving Radius (KM) *</ion-label>
+          <ion-input type = "number" required name ="servingradius" id = "ngModel" [(ngModel)] = "store.serving_radius"></ion-input>
+          <span style="color:tomato" slot="end" (click)="changeRadius()">change</span>
+        </ion-item>
+
+    </div>
+    <div style="height:15px; background:lightgrey"></div>
+
+    <ion-item>
+        <ion-label position="stacked">Minimum Order Amount in Ruppe</ion-label>
+        <ion-input type = "number" required name ="miniorder" id = "ngModel" [(ngModel)] = "store.min_order"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Delivery charge in Ruppe</ion-label>
+        <ion-input type = "number" required name ="deliverycharge" id = "ngModel" [(ngModel)] = "store.delivery_charge"></ion-input>
+      </ion-item>
+
+
+      <ion-item>
+          <ion-label position="stacked">Delivery time(in Hr)</ion-label>
+          <ion-input type = "number" required name ="deliverytime" id = "ngModel" [(ngModel)] = "store.delivery_time"></ion-input>
+        </ion-item>
+
+        <div style="height:15px; background:lightgrey"></div>
+        <ion-item  [routerLink]="['/announcement']" >
+          <ion-label>Announcement</ion-label>
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </ion-item>
+
+        <!-- <div style="height:15px; background:lightgrey"></div> -->
+
+
+        <ion-item  [routerLink]="['/offer']" lines="none">
+          <ion-label>Offers</ion-label>
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </ion-item>
+
+
+
+        <div style="height:15px; background:lightgrey"></div>
+
+        <ion-item lines="none">
+          <ion-label position="stacked">Store Link</ion-label>
+          <ion-input name ="link" id = "ngModel" [(ngModel)] = "store.store_link"></ion-input>
+        </ion-item>
+
+        <div style="height:15px; background:lightgrey"></div>
+
+
+        <ion-item>
+          <ion-label>Do you have GST No?</ion-label>
+          <ion-toggle [(ngModel)]="store.is_gst"  name="status" (ionChange)="makeDirty()" [ngModelOptions]="{standalone: true}"></ion-toggle>
+          </ion-item>
+          
+        <ion-item *ngIf = "store.is_gst">
+          <ion-label position="stacked">GST No.</ion-label>
+          <ion-input  name ="gstno" id = "ngModel" [(ngModel)] = "store.gst_no"></ion-input>
+        </ion-item>
+
+
+
+        <div style="height:15px; background:lightgrey"></div>
+
+   
+          <ion-item>
+          <ion-label>Do you have FSSAI No?</ion-label>
+          <ion-toggle [(ngModel)]="store.is_fssai"  name="status" (ionChange)="makeDirty()" [ngModelOptions]="{standalone: true}"></ion-toggle>
+          
+          </ion-item>
+ 
+        <ion-item *ngIf = "store.is_fssai">
+          <ion-label position="stacked">FSSAI No</ion-label>
+          <ion-input  name ="fssai" id = "ngModel"   [(ngModel)] = "store.fssai_no"></ion-input>
+        </ion-item>
+
+
+      </form>
+
+  
+<div style="text-align:center; padding-top:25px;">
+ <!-- <ion-button (click)="updateStoreData(store)">save</ion-button> -->
+</div>
+
+<div style="height:15px; background:lightgrey"></div>
+
+<ion-item  [routerLink]="['/tabs/profile']" lines="none">
+  <ion-label>Profile</ion-label>
+  <ion-icon name="chevron-forward-outline"></ion-icon>
+</ion-item>
+
+<div style="height:15px; background:lightgrey"></div>
+
+</ion-content>

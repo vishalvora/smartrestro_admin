@@ -1,7 +1,0 @@
-{
-  "name": "snvmart_seller",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "angular"
-}
